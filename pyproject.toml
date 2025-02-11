@@ -13,7 +13,7 @@ maintainers = [
 packages = ["naclfile"]
 dependencies = [
   "PyNaCl",
-#  "cofferfile",
+  "cofferfile",
 ]
 classifiers = [
   # How mature is this project? Common values are
