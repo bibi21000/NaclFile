@@ -4,7 +4,7 @@
 __author__ = 'bibi21000 aka Sébastien GALLET'
 __email__ = 'bibi21000@gmail.com'
 
-from cofferfile import EncryptFile, Cryptor, _open_t
+from cofferfile import EncryptFile, Cryptor, _open_cls
 from cofferfile import WRITE_BUFFER_SIZE, CHUNK_SIZE, READ, WRITE, APPEND, EXCLUSIVE # noqa F401
 from cofferfile.decorator import reify
 
@@ -94,7 +94,8 @@ def open(filename, mode="rb", secret_key=None,
     Encryption is done by chunks to reduce memory footprint. The default
     chunk_size is 64KB.
     """
-    return _open_t(filename, mode=mode,
-         encoding=encoding, errors=errors, newline=newline,
-         chunk_size=chunk_size,
-         cryptor='nacl', secret_key=secret_key)
+    return _open_cls(filename, mode=mode, chunk_size=chunk_size,
+        encoding=encoding, errors=errors, newline=newline,
+        coffer_cls = NaclFile,
+        level_or_option=level_or_option, zstd_dict=zstd_dict,
+        cryptor='nacl', secret_key=secret_key, **cryptor_args)

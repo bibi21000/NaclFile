@@ -96,4 +96,4 @@ def open(filename, mode="rb", secret_key=None,
         encoding=encoding, errors=errors, newline=newline,
         coffer_cls = NaclFile,
         level_or_option=level_or_option, zstd_dict=zstd_dict,
-        cryptor='fernet', secret_key=secret_key, **cryptor_args)
+        cryptor='nacl', secret_key=secret_key, **cryptor_args)
