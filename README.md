@@ -4,4 +4,6 @@
 
 # NaclFile
 
+This project is part of the CofferFile : https://github.com/bibi21000/CofferFile
+
 Encrypt your files with PyNacl SecretBox
