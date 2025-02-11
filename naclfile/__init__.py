@@ -4,7 +4,7 @@
 __author__ = 'bibi21000 aka Sébastien GALLET'
 __email__ = 'bibi21000@gmail.com'
 
-from cofferfile import EncryptFile, Cryptor, _open_cls
+from cofferfile import EncryptFile, Cryptor, _open_t
 from cofferfile import WRITE_BUFFER_SIZE, CHUNK_SIZE, READ, WRITE, APPEND, EXCLUSIVE # noqa F401
 from cofferfile.decorator import reify
 
@@ -73,7 +73,7 @@ class NaclFile(EncryptFile):
 
 def open(filename, mode="rb", secret_key=None,
          encoding=None, errors=None, newline=None,
-         chunk_size=CHUNK_SIZE, **cryptor_args):
+         chunk_size=CHUNK_SIZE):
     """Open an Nacl file in binary or text mode.
 
     The filename argument can be an actual filename (a str or bytes object), or
@@ -94,7 +94,7 @@ def open(filename, mode="rb", secret_key=None,
     Encryption is done by chunks to reduce memory footprint. The default
     chunk_size is 64KB.
     """
-    return _open_cls(filename, mode=mode, chunk_size=chunk_size,
-        encoding=encoding, errors=errors, newline=newline,
-        coffer_cls = NaclFile,
-        cryptor='nacl', secret_key=secret_key, **cryptor_args)
+    return _open_t(filename, mode=mode,
+         encoding=encoding, errors=errors, newline=newline,
+         chunk_size=chunk_size,
+         cryptor='nacl', secret_key=secret_key)
