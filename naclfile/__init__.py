@@ -1,5 +1,10 @@
 # -*- encoding: utf-8 -*-
-""" PyNaCl encryption
+"""
+
+.. include:: ../README.md
+   :start-line: 1
+
+
 """
 __author__ = 'bibi21000 aka Sébastien GALLET'
 __email__ = 'bibi21000@gmail.com'
@@ -10,28 +15,11 @@ from cofferfile.decorator import reify
 
 __all__ = ["NaclCryptor", "NaclFile", "open"]
 
-class NaclCryptor(Cryptor):
-
-    @reify
-    def _imp_nacl_secret(cls):
-        """Lazy loader for nacl.secret"""
-        import importlib
-        return importlib.import_module('nacl.secret')
-
-    def __init__(self, secret_key=None, **kwargs):
-        super().__init__(**kwargs)
-        if secret_key is None:
-            raise ValueError("Invalid secret_key: {!r}".format(secret_key))
-        self.secret = self._imp_nacl_secret.SecretBox(secret_key)
-
-    def _decrypt(self, chunk):
-        return self.secret.decrypt(chunk)
-
-    def _encrypt(self, chunk):
-        return self.secret.encrypt(chunk)
-
 class NaclFile(EncryptFile):
-
+    """
+    `naclfile.zstd`
+    `naclfile.tar`
+    """
     def __init__(self, filename=None, mode=None, fileobj=None,
             chunk_size=CHUNK_SIZE, write_buffer_size=WRITE_BUFFER_SIZE,
             secret_key=None
@@ -68,8 +56,32 @@ class NaclFile(EncryptFile):
             cryptor='nacl', secret_key=secret_key)
 
     def __repr__(self):
+        """ """
         s = repr(self.myfileobj)
         return '<NaclFile ' + s[1:-1] + ' ' + hex(id(self)) + '>'
+
+class NaclCryptor(Cryptor):
+
+    @reify
+    def _imp_nacl_secret(cls):
+        """Lazy loader for nacl.secret"""
+        import importlib
+        return importlib.import_module('nacl.secret')
+
+    def __init__(self, secret_key=None, **kwargs):
+        """ """
+        super().__init__(**kwargs)
+        if secret_key is None:
+            raise ValueError("Invalid secret_key: {!r}".format(secret_key))
+        self.secret = self._imp_nacl_secret.SecretBox(secret_key)
+
+    def _decrypt(self, chunk):
+        """ """
+        return self.secret.decrypt(chunk)
+
+    def _encrypt(self, chunk):
+        """ """
+        return self.secret.encrypt(chunk)
 
 def open(filename, mode="rb", secret_key=None,
          encoding=None, errors=None, newline=None,

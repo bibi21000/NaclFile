@@ -6,7 +6,6 @@ venv:
 	./venv/bin/pip install .
 	./venv/bin/pip install .[test]
 	./venv/bin/pip install .[zstd]
-	./venv/bin/pip install .[store]
 
 build:
 	rm -rf dist
@@ -16,19 +15,17 @@ testpypi:
 	./venv/bin/python3 -m twine upload --repository testpypi --verbose dist/*
 
 doc:
-	./venv/bin/pdoc --output-directory docs fernetfile/zstd.py fernetfile/store.py fernetfile/__init__.py
+	./venv/bin/pdoc --output-directory docs naclfile/zstd.py naclfile/tar.py naclfile/__init__.py
 
 pypi:
 	./venv/bin/python3 -m twine upload --repository pypi --verbose dist/*
 
 ruff:
-	./venv/bin/ruff check fernetfile/
+	./venv/bin/ruff check naclfile/
 
 bandit:
-	./venv/bin/bandit -r fernetfile
+	./venv/bin/bandit -r naclfile
 
 tests:
-	./venv/bin/pytest  --random-order -n auto --ignore=tests/test_benchmark.py tests/
+	./venv/bin/pytest  --random-order -n auto tests/
 
-benchmark:
-	./venv/bin/pytest tests/test_benchmark.py
