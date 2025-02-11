@@ -73,7 +73,7 @@ class NaclFile(EncryptFile):
 
 def open(filename, mode="rb", secret_key=None,
          encoding=None, errors=None, newline=None,
-         chunk_size=CHUNK_SIZE):
+         chunk_size=CHUNK_SIZE, cryptor_args):
     """Open an Nacl file in binary or text mode.
 
     The filename argument can be an actual filename (a str or bytes object), or
