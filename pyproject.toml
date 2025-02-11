@@ -45,7 +45,6 @@ nacl = "naclfile:NaclCryptor"
 [project.optional-dependencies]
 test = ["pytest", "coverage[toml]", "pytest-cov", "pytest-xdist",
  "pytest-random-order", "pytest-mock", "ruff", "bandit"]
-dev = ["cofferfile@git+https://github.com/bibi21000/CofferFile"]
 build = ["build", 'twine']
 zstd = ["pyzstd"]
 doc = ["pdoc"]

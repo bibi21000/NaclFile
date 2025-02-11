@@ -6,6 +6,8 @@ venv:
 	./venv/bin/pip install .
 	./venv/bin/pip install .[test]
 	./venv/bin/pip install .[zstd]
+	./venv/bin/pip install .[build]
+	./venv/bin/pip install .[doc]
 
 build:
 	rm -rf dist
