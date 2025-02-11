@@ -28,9 +28,7 @@ jobs:
           command: |
             pip install .
             pip install .[test]
-            pip install .[fernet]
-            pip install .[pynacl]
-            pip install .[aes]
+            pip install --force-reinstall .[dev]
             pip install codecov-cli
       - run:
           name: Run tests
