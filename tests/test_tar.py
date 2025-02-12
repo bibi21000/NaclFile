@@ -50,7 +50,7 @@ def test_buffer_nacl_file(random_path, random_name, chunk_size, file_size):
 
     tarpath = os.path.join(random_path, "extract_%s"%random_name)
     with TarFile(dataf, "rb", secret_key=key) as ff:
-        ff.extractall(path=tarpath)
+        ff.extractall(path=tarpath, filter='data')
 
     with open(os.path.join(tarpath, 'file1.data'), 'rb') as ff:
         assert data1 == ff.read()
@@ -90,7 +90,7 @@ def test_buffer_nacl_open(random_path, random_name, chunk_size, file_size):
 
     tarpath = os.path.join(random_path, "extract_%s"%random_name)
     with tar_open(dataf, "rb", secret_key=key) as ff:
-        ff.extractall(path=tarpath)
+        ff.extractall(path=tarpath, filter='data')
 
     with open(os.path.join(tarpath, 'file1.data'), 'rb') as ff:
         assert data1 == ff.read()
