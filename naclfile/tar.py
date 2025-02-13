@@ -16,7 +16,7 @@ from .zstd import NaclFile as ZstdNaclFile
 
 
 class TarFile(tarfile.TarFile):
-    """The container of the store. Based on TarFfile with encryption"""
+    """Based on TarFfile with encryption"""
 
     def __init__(self, name, mode='r', fileobj=None, secret_key=None, **kwargs):
         """Init the TarZstdNaclFile"""
@@ -52,7 +52,7 @@ def open(filename, mode="rb", secret_key=None,
         chunk_size=CHUNK_SIZE,
         level_or_option=None, zstd_dict=None,
         **cryptor_args):
-    """Open a ZstdFernet file in binary or text mode.
+    """Open a file in binary or text mode.
 
     The filename argument can be an actual filename (a str or bytes object), or
     an existing file object to read from or write to.
