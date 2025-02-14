@@ -12,6 +12,7 @@ import pyzstd
 from pyzstd import CParameter, DParameter # noqa F401
 
 from cofferfile import _open_cls
+from cofferfile.zstd import clean_level_or_option
 from . import CHUNK_SIZE, READ, WRITE, APPEND, EXCLUSIVE # noqa F401
 from . import NaclFile as _NaclFile
 
@@ -61,7 +62,7 @@ class NaclFile(pyzstd.ZstdFile):
             secret_key=secret_key, chunk_size=chunk_size, **kwargs)
         try:
             super().__init__(self.nacl_file, zstd_dict=zstd_dict,
-                level_or_option=level_or_option, mode=mode, **kwargs)
+                level_or_option=clean_level_or_option(level_or_option, mode=mode), mode=mode, **kwargs)
         except Exception:
             self.nacl_file.close()
             raise
@@ -83,7 +84,7 @@ def open(filename, mode="rb", secret_key=None,
         chunk_size=CHUNK_SIZE,
         level_or_option=None, zstd_dict=None,
         **cryptor_args):
-    """Open a ZstdFernet file in binary or text mode.
+    """Open a ZstdNacl file in binary or text mode.
 
     The filename argument can be an actual filename (a str or bytes object), or
     an existing file object to read from or write to.
