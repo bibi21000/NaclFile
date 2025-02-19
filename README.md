@@ -10,7 +10,7 @@ for encrypting files with PyNacl SecretBox.
 This project is part of the CofferFile : https://github.com/bibi21000/CofferFile.
 
 If you're looking for a more powerfull storage for your sensible datas,
-look at PyCoffer : https://github.com/bibi21000/CofferFile.
+look at PyCoffer : https://github.com/bibi21000/PyCoffer.
 
 ## Install
 
@@ -53,12 +53,11 @@ Text files :
 Binary files :
 
 ```
-    import naclfile.zstd
 
-    with naclfile.zstd.open('test.nacz', mode='wb', secret_key=key) as ff:
+    with nacl_open('test.nacl', mode='wb', secret_key=key) as ff:
         ff.write(data)
 
-    with naclfile.zstd.open('test.nacz', "rb", secret_key=key) as ff:
+    with nacl_open('test.nacl', "rb", secret_key=key) as ff:
         data = ff.read()
 ```
 
