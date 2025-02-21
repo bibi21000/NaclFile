@@ -103,7 +103,9 @@ class NaclCryptor(Cryptor):
             ops = self._imp_nacl_pwhash_argon2i.OPSLIMIT_SENSITIVE
         if mem is None:
             mem = self._imp_nacl_pwhash_argon2i.MEMLIMIT_SENSITIVE
-        return self._imp_nacl_pwhash_argon2i.kdf(key_len, bytes(password,'utf-8'), salt,
+        if isinstance(password, str):
+            password = password.encode()
+        return self._imp_nacl_pwhash_argon2i.kdf(key_len, password, salt,
                  opslimit=ops, memlimit=mem)
 
     # ~ def derive(self, password, salt=None, key_len=64, ops=None, mem=None):
