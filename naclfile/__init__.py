@@ -68,12 +68,56 @@ class NaclCryptor(Cryptor):
         import importlib
         return importlib.import_module('nacl.secret')
 
+    @reify
+    def _imp_nacl_utils(cls):
+        """Lazy loader for nacl.utils"""
+        import importlib
+        return importlib.import_module('nacl.utils')
+
+    @reify
+    def _imp_nacl_pwhash_argon2i(cls):
+        """Lazy loader for nacl.pwhash.argon2id"""
+        import importlib
+        return importlib.import_module('nacl.pwhash.argon2i')
+
+    # ~ @reify
+    # ~ def _imp_nacl_pwhash_scrypt(cls):
+        # ~ """Lazy loader for nacl.pwhash.scrypt"""
+        # ~ import importlib
+        # ~ return importlib.import_module('nacl.pwhash.scrypt')
+
     def __init__(self, secret_key=None, **kwargs):
         """ """
         super().__init__(**kwargs)
         if secret_key is None:
             raise ValueError("Invalid secret_key: {!r}".format(secret_key))
         self.secret = self._imp_nacl_secret.SecretBox(secret_key)
+
+    def derive(self, password, salt=None, key_len=64, ops=None, mem=None):
+        """Derive a key from password (experimental)
+        See https://pynacl.readthedocs.io/en/latest/password_hashing/#key-derivation
+        """
+        if salt is None:
+            salt = self._imp_nacl_utils.random(self._imp_nacl_pwhash_argon2i.SALTBYTES)
+        if ops is None:
+            ops = self._imp_nacl_pwhash_argon2i.OPSLIMIT_SENSITIVE
+        if mem is None:
+            mem = self._imp_nacl_pwhash_argon2i.MEMLIMIT_SENSITIVE
+        return self._imp_nacl_pwhash_argon2i.kdf(key_len, bytes(password,'utf-8'), salt,
+                 opslimit=ops, memlimit=mem)
+
+    # ~ def derive(self, password, salt=None, key_len=64, ops=None, mem=None):
+        # ~ """Derive a key from password (experimental)
+        # ~ See https://pynacl.readthedocs.io/en/latest/password_hashing/#key-derivation
+        # ~ """
+        # ~ if salt is None:
+            # ~ salt = self._imp_nacl_utils.get_random_bytes(self._imp_nacl_pwhash_scrypt.SALTBYTES)
+        # ~ if ops is None:
+            # ~ ops = self._imp_nacl_pwhash_scrypt.OPSLIMIT_SENSITIVE
+        # ~ if mem is None:
+            # ~ mem = self._imp_nacl_pwhash_scrypt.MEMLIMIT_SENSITIVE
+        # ~ return self._imp_nacl_pwhash_scrypt.kdf(key_len, password, salt,
+                 # ~ opslimit=ops, memlimit=mem)
 
     def _decrypt(self, chunk):
         """ """

@@ -36,4 +36,3 @@ bandit:
 
 tests:
 	./venv/bin/pytest  --random-order -n auto tests/
-
