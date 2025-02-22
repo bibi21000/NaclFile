@@ -4,10 +4,6 @@
 __author__ = 'bibi21000 aka Sébastien GALLET'
 __email__ = 'bibi21000@gmail.com'
 
-import os
-import sys
-import io
-
 import pyzstd
 from pyzstd import CParameter, DParameter # noqa F401
 
@@ -56,7 +52,7 @@ class NaclFile(pyzstd.ZstdFile):
 
         Look at `pyzstd documentation <https://pyzstd.readthedocs.io/en/stable/#advanced-parameters>`_
         """
-        cryptor = kwargs.pop('cryptor', None)
+        kwargs.pop('cryptor', None)
         chunk_size = kwargs.pop('chunk_size', CHUNK_SIZE)
         self.nacl_file = _NaclFile(name, mode, fileobj=fileobj,
             secret_key=secret_key, chunk_size=chunk_size, **kwargs)

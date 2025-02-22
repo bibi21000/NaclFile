@@ -5,9 +5,6 @@
 __author__ = 'bibi21000 aka Sébastien GALLET'
 __email__ = 'bibi21000@gmail.com'
 
-import os
-import sys
-import io
 import tarfile
 
 from cofferfile import _open_cls
@@ -23,7 +20,7 @@ class TarFile(tarfile.TarFile):
         level_or_option = kwargs.pop('level_or_option', None)
         zstd_dict = kwargs.pop('zstd_dict', None)
         chunk_size = kwargs.pop('chunk_size', CHUNK_SIZE)
-        cryptor = kwargs.pop('cryptor', None)
+        kwargs.pop('cryptor', None)
         self.nacl_file = ZstdNaclFile(name, mode, fileobj=fileobj,
             secret_key=secret_key, level_or_option=level_or_option,
                 zstd_dict=zstd_dict, chunk_size=chunk_size, **kwargs)
