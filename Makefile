@@ -4,6 +4,7 @@
 ifndef PYTHON
 PYTHON:=python3
 endif
+VERSION := $(shell grep -m 1 version pyproject.toml | tr -s ' ' | tr -d '"' | tr -d "'" | cut -d' ' -f3)
 
 .PHONY: venv tests
 
@@ -34,5 +35,7 @@ ruff:
 bandit:
 	./venv/bin/bandit -r naclfile
 
-tests:
-	./venv/bin/pytest  --random-order -n auto tests/
+release:
+	-git push
+	gh release create v${VERSION}
+
