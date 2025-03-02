@@ -42,3 +42,17 @@ def test_cryptor_derive(random_path, random_name):
     assert uncrypted == text
     uncrypted = crypt2._decrypt(crypted)
     assert uncrypted == text
+
+def test_cryptor_derive_2(random_path, random_name):
+    import secrets
+    password = secrets.token_bytes(43)
+    salt, derive1 = Cryptor.derive(password)
+    _, derive2 = Cryptor.derive(password, salt=salt)
+    crypt1 = Cryptor(secret_key=derive1)
+    crypt2 = Cryptor(secret_key=derive2)
+    text = secrets.token_bytes(27)
+    crypted = crypt1._encrypt(text)
+    uncrypted = crypt1._decrypt(crypted)
+    assert uncrypted == text
+    uncrypted = crypt2._decrypt(crypted)
+    assert uncrypted == text
