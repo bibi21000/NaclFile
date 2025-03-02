@@ -68,12 +68,14 @@ class NaclCryptor(Cryptor):
         import importlib
         return importlib.import_module('nacl.secret')
 
+    @classmethod
     @reify
     def _imp_nacl_utils(cls):
         """Lazy loader for nacl.utils"""
         import importlib
         return importlib.import_module('nacl.utils')
 
+    @classmethod
     @reify
     def _imp_nacl_pwhash_argon2i(cls):
         """Lazy loader for nacl.pwhash.argon2id"""
@@ -93,7 +95,8 @@ class NaclCryptor(Cryptor):
             raise ValueError("Invalid secret_key: {!r}".format(secret_key))
         self.secret = self._imp_nacl_secret.SecretBox(secret_key)
 
-    def derive(self, password, salt=None, key_len=64, ops=None, mem=None):
+    @classmethod
+    def derive(self, password, salt=None, key_len=32, ops=None, mem=None):
         """Derive a key from password (experimental)
         See https://pynacl.readthedocs.io/en/latest/password_hashing/#key-derivation
         """
@@ -105,7 +108,7 @@ class NaclCryptor(Cryptor):
             mem = self._imp_nacl_pwhash_argon2i.MEMLIMIT_SENSITIVE
         if isinstance(password, str):
             password = password.encode()
-        return self._imp_nacl_pwhash_argon2i.kdf(key_len, password, salt,
+        return salt, self._imp_nacl_pwhash_argon2i.kdf(key_len, password, salt,
                  opslimit=ops, memlimit=mem)
 
     # ~ def derive(self, password, salt=None, key_len=64, ops=None, mem=None):
