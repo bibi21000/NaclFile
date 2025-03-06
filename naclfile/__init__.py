@@ -62,6 +62,7 @@ class NaclFile(EncryptFile):
 
 class NaclCryptor(Cryptor):
 
+    @classmethod
     @reify
     def _imp_nacl_secret(cls):
         """Lazy loader for nacl.secret"""
