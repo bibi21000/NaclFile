@@ -96,10 +96,12 @@ class NaclCryptor(Cryptor):
         self.secret = self._imp_nacl_secret.SecretBox(secret_key)
 
     @classmethod
-    def derive(self, password, salt=None, key_len=32, ops=None, mem=None):
+    def derive(self, password, salt=None, key_len=None, ops=None, mem=None):
         """Derive a key from password (experimental)
         See https://pynacl.readthedocs.io/en/latest/password_hashing/#key-derivation
         """
+        if key_len is None:
+            key_len = self._imp_nacl_secret.SecretBox.KEY_SIZE
         if salt is None:
             salt = self._imp_nacl_utils.random(self._imp_nacl_pwhash_argon2i.SALTBYTES)
         if ops is None:
