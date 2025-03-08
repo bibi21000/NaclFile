@@ -36,6 +36,7 @@ bandit:
 	./venv/bin/bandit -r naclfile
 
 release:
+	-make doc && git commit -m "Update doc" docs/
 	-git push
 	gh release create v${VERSION}
 
